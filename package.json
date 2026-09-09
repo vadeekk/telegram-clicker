@@ -1,0 +1,13 @@
+{
+  "name": "telegram-clicker",
+  "version": "1.0.0",
+  "description": "Telegram Mini App Clicker Game",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js"
+  },
+  "dependencies": {
+    "node-telegram-bot-api": "^0.61.0",
+    "dotenv": "^16.0.3"
+  }
+}
