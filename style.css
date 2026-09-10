@@ -48,9 +48,9 @@ body {
     display: flex;
     justify-content: space-around;
     background: #f8f9fa;
-    padding: 15px;
+    padding: 15px 10px;
     border-radius: 12px;
-    gap: 10px;
+    gap: 5px;
 }
 
 .stat-item {
@@ -64,13 +64,14 @@ body {
 
 .stat-item span:first-child {
     color: #666;
-    font-size: 0.85em;
+    font-size: 0.8em;
     text-align: center;
+    white-space: nowrap;
 }
 
 .stat-item span:last-child {
     color: #333;
-    font-size: 1.5em;
+    font-size: 1.3em;
     font-weight: bold;
 }
 
@@ -308,13 +309,13 @@ body {
         gap: 8px;
     }
 
-    .stat-item span:first-child {
-        font-size: 0.75em;
-    }
+   .stat-item span:first-child {
+    font-size: 0.7em;
+}
 
-    .stat-item span:last-child {
-        font-size: 1.2em;
-    }
+.stat-item span:last-child {
+    font-size: 1.1em;
+}
 
     .game-area {
         margin: 20px 0;

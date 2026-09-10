@@ -7,7 +7,7 @@ tg.expand();
 // Состояние игры
 const gameState = {
     score: 0,
-    clickPower: 0,
+    clickPower: 1,
     autoClickers: 0,
     multiplier: 1,
     autoInterval: null
@@ -36,8 +36,16 @@ function saveGame() {
 
 // Обновление UI
 function updateUI() {
+    // Счёт
     document.getElementById('score').textContent = gameState.score;
-    document.getElementById('clickPower').textContent = gameState.clickPower * gameState.multiplier;
+    
+    // Сколько даёт один клик (сила клика × множитель)
+    const clickValue = gameState.clickPower * gameState.multiplier;
+    document.getElementById('clickPower').textContent = clickValue;
+    
+    // Сколько капает пассивно в секунду (автокликеры × множитель)
+    const passiveValue = gameState.autoClickers * gameState.multiplier;
+    document.getElementById('passiveIncome').textContent = passiveValue;
     
     // Обновляем кнопки магазина
     document.querySelectorAll('.buy-btn').forEach(btn => {
