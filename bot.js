@@ -5,7 +5,7 @@ const TelegramBot = require('node-telegram-bot-api');
 const token = '8637346424:AAH7I-65IsjNQX_s7fZqHa2MAkqrqcgahuQ';
 const bot = new TelegramBot(token, { polling: true });
 
-const webAppUrl = 'https://web.telegram.org/k/#@klicker_laba9_bot'; // Замени на свой URL
+const webAppUrl = 'https://vadeekk.github.io/telegram-clicker/'; // Замени на свой URL
 
 bot.onText(/\/start/, (msg) => {
     const chatId = msg.chat.id;
