@@ -13,6 +13,34 @@ const gameState = {
     autoInterval: null
 };
 
+// ===== КОНФИГ МАГАЗИНА =====
+const shopConfig = {
+    click: {
+        basePrice: 10,      // начальная цена
+        multiplier: 1.5,    // во сколько раз растёт цена
+        owned: 0,           // сколько куплено
+        effect: 1           // сколько даёт за покупку
+    },
+    auto: {
+        basePrice: 50,
+        multiplier: 1.6,
+        owned: 0,
+        effect: 1
+    },
+    multiplier: {
+        basePrice: 100,
+        multiplier: 2.5,    // множитель дорожает быстрее
+        owned: 0,
+        effect: 2
+    }
+};
+
+// Функция расчёта текущей цены
+function getPrice(type) {
+    const item = shopConfig[type];
+    return Math.floor(item.basePrice * Math.pow(item.multiplier, item.owned));
+}
+
 // Загрузка сохранений
 function loadGame() {
     const saved = localStorage.getItem('clickerGame');
@@ -27,29 +55,58 @@ function loadGame() {
             console.error('Ошибка загрузки', e);
         }
     }
+    
+    // Загружаем магазин
+    const savedShop = localStorage.getItem('clickerShop');
+    if (savedShop) {
+        try {
+            const data = JSON.parse(savedShop);
+            Object.keys(data).forEach(key => {
+                if (shopConfig[key]) {
+                    shopConfig[key].owned = data[key].owned || 0;
+                }
+            });
+        } catch (e) {
+            console.error('Ошибка загрузки магазина', e);
+        }
+    }
 }
 
 // Сохранение игры
 function saveGame() {
     localStorage.setItem('clickerGame', JSON.stringify(gameState));
+    localStorage.setItem('clickerShop', JSON.stringify(shopConfig));
 }
-
 // Обновление UI
 function updateUI() {
     // Счёт
     document.getElementById('score').textContent = gameState.score;
     
-    // Сколько даёт один клик (сила клика × множитель)
+    // За клик
     const clickValue = gameState.clickPower * gameState.multiplier;
     document.getElementById('clickPower').textContent = clickValue;
     
-    // Сколько капает пассивно в секунду (автокликеры × множитель)
+    // В секунду
     const passiveValue = gameState.autoClickers * gameState.multiplier;
     document.getElementById('passiveIncome').textContent = passiveValue;
     
-    // Обновляем кнопки магазина
-    document.querySelectorAll('.buy-btn').forEach(btn => {
-        const price = parseInt(btn.dataset.price);
+    // Обновляем цены и кнопки магазина
+    updateShop();
+}
+
+// Обновление магазина
+function updateShop() {
+    ['click', 'auto', 'multiplier'].forEach(type => {
+        const price = getPrice(type);
+        
+        // Обновляем цену
+        document.getElementById(`price-${type}`).textContent = price;
+        
+        // Обновляем "Куплено"
+        document.getElementById(`owned-${type}`).textContent = shopConfig[type].owned;
+        
+        // Обновляем кнопку
+        const btn = document.getElementById(`btn-${type}`);
         btn.disabled = gameState.score < price;
     });
 }
@@ -90,30 +147,35 @@ function startAutoClicker() {
 }
 
 // Покупка
-function buyItem(type, price) {
+function buyItem(type) {
+    const price = getPrice(type);
+    
     if (gameState.score < price) {
         showNotification('❌ Недостаточно средств!');
         return false;
     }
 
+    // Списываем деньги
     gameState.score -= price;
+    
+    // Увеличиваем счётчик покупок
+    shopConfig[type].owned++;
 
+    // Применяем эффект
     switch(type) {
         case 'click':
-            gameState.clickPower += 1;
-            showNotification('⚡ Сила клика увеличена!');
+            gameState.clickPower += shopConfig.click.effect;
+            showNotification(`⚡ Сила клика: ${gameState.clickPower}`);
             break;
         case 'auto':
-            gameState.autoClickers += 1;
+            gameState.autoClickers += shopConfig.auto.effect;
             startAutoClicker();
-            showNotification('🤖 Автокликер активирован!');
+            showNotification(`🤖 Автокликеров: ${gameState.autoClickers}`);
             break;
         case 'multiplier':
-            gameState.multiplier *= 2;
-            showNotification('💎 Множитель x2 активирован!');
+            gameState.multiplier *= shopConfig.multiplier.effect;
+            showNotification(`💎 Множитель: x${gameState.multiplier}`);
             break;
-        default:
-            return false;
     }
 
     updateUI();
@@ -146,15 +208,13 @@ function init() {
     // Кнопка клика
     document.getElementById('clickButton').addEventListener('click', handleClick);
     
-    // Кнопки магазина
-    document.querySelectorAll('.buy-btn').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            const type = this.dataset.type;
-            const price = parseInt(this.dataset.price);
-            buyItem(type, price);
-        });
+  document.querySelectorAll('.buy-btn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const type = this.dataset.type;
+        buyItem(type);
     });
+});
 
     updateUI();
 

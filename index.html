@@ -34,35 +34,38 @@
             <div id="comboCounter" class="combo-counter">🔥 x2</div>
         </div>
 
-        <div class="shop">
-            <h2>🛒 Магазин</h2>
-            <div class="shop-grid">
-                <div class="shop-item">
-                    <div class="shop-item-info">
-                        <h3>⚡ Улучшение клика</h3>
-                        <p>+1 к силе клика</p>
-                        <p class="price">💰 10</p>
-                    </div>
-                    <button class="buy-btn" data-price="10" data-type="click">Купить</button>
-                </div>
-                <div class="shop-item">
-                    <div class="shop-item-info">
-                        <h3>🤖 Автокликер</h3>
-                        <p>+1 клик в секунду</p>
-                        <p class="price">💰 50</p>
-                    </div>
-                    <button class="buy-btn" data-price="50" data-type="auto">Купить</button>
-                </div>
-                <div class="shop-item">
-                    <div class="shop-item-info">
-                        <h3>💎 Множитель x2</h3>
-                        <p>Удваивает все клики</p>
-                        <p class="price">💰 100</p>
-                    </div>
-                    <button class="buy-btn" data-price="100" data-type="multiplier">Купить</button>
-                </div>
+       <div class="shop">
+    <h2>🛒 Магазин</h2>
+    <div class="shop-grid">
+        <div class="shop-item">
+            <div class="shop-item-info">
+                <h3>⚡ Улучшение клика</h3>
+                <p>+1 к силе клика</p>
+                <p class="price">💰 <span id="price-click">10</span></p>
+                <p class="owned">Куплено: <span id="owned-click">0</span></p>
             </div>
+            <button class="buy-btn" data-type="click" id="btn-click">Купить</button>
         </div>
+        <div class="shop-item">
+            <div class="shop-item-info">
+                <h3>🤖 Автокликер</h3>
+                <p>+1 клик в секунду</p>
+                <p class="price">💰 <span id="price-auto">50</span></p>
+                <p class="owned">Куплено: <span id="owned-auto">0</span></p>
+            </div>
+            <button class="buy-btn" data-type="auto" id="btn-auto">Купить</button>
+        </div>
+        <div class="shop-item">
+            <div class="shop-item-info">
+                <h3>💎 Множитель x2</h3>
+                <p>Удваивает все клики</p>
+                <p class="price">💰 <span id="price-multiplier">100</span></p>
+                <p class="owned">Куплено: <span id="owned-multiplier">0</span></p>
+            </div>
+            <button class="buy-btn" data-type="multiplier" id="btn-multiplier">Купить</button>
+        </div>
+    </div>
+</div>
     </div>
 
     <script src="script.js"></script>
