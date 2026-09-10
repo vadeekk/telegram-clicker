@@ -7,7 +7,7 @@ tg.expand();
 // Состояние игры
 const gameState = {
     score: 0,
-    clickPower: 1,
+    clickPower: 0,
     autoClickers: 0,
     multiplier: 1,
     autoInterval: null
