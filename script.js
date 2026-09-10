@@ -16,19 +16,19 @@ const gameState = {
 // ===== КОНФИГ МАГАЗИНА =====
 const shopConfig = {
     click: {
-        basePrice: 10,
+        basePrice: 100,
         priceMultiplier: 1.5,
         owned: 0,
         effect: 1
     },
     auto: {
-        basePrice: 50,
+        basePrice: 250,
         priceMultiplier: 1.6,
         owned: 0,
         effect: 1
     },
     multiplier: {
-        basePrice: 100,
+        basePrice: 10000,
         priceMultiplier: 2.5,
         owned: 0,
         effect: 2
@@ -49,7 +49,7 @@ function getPrice(type) {
 
 // ===== ЗАГРУЗКА ИГРЫ =====
 function loadGame() {
-    const saved = localStorage.getItem('clickerGame');
+    const saved = localStorage.getItem('clickerGame_v1');
     if (saved) {
         try {
             const data = JSON.parse(saved);
@@ -66,7 +66,7 @@ function loadGame() {
         }
     }
     
-    const savedShop = localStorage.getItem('clickerShop');
+    const savedShop = localStorage.getItem('clickerShop_v1');
     if (savedShop) {
         try {
             const data = JSON.parse(savedShop);
@@ -83,14 +83,14 @@ function loadGame() {
 
 // ===== СОХРАНЕНИЕ ИГРЫ =====
 function saveGame() {
-    localStorage.setItem('clickerGame', JSON.stringify({
+    localStorage.setItem('clickerGame_v1', JSON.stringify({
         score: gameState.score,
         clickPower: gameState.clickPower,
         autoClickers: gameState.autoClickers,
         multiplier: gameState.multiplier
     }));
     
-    localStorage.setItem('clickerShop', JSON.stringify({
+    localStorage.setItem('clickerShop_v1', JSON.stringify({
         click: { owned: shopConfig.click.owned },
         auto: { owned: shopConfig.auto.owned },
         multiplier: { owned: shopConfig.multiplier.owned }
